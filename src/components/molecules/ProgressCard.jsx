@@ -44,9 +44,9 @@ const ProgressCard = ({
             <ApperIcon name={icon} className={`w-5 h-5 text-${color}-600`} />
           </div>
           <div>
-            <h3 className="font-semibold text-secondary-800">{title}</h3>
+<h3 className="font-semibold text-secondary-800">{title}</h3>
             <p className="text-sm text-secondary-600">
-              ₹{current.toLocaleString()} / ₹{target.toLocaleString()}
+              ₹{(current || 0).toLocaleString()} / ₹{(target || 0).toLocaleString()}
             </p>
           </div>
         </div>

@@ -9,12 +9,28 @@ function Login() {
   const dispatch = useDispatch()
   const { isInitialized } = useContext(AuthContext)
   
-  useEffect(() => {
+useEffect(() => {
+    // Add error handler to suppress ResizeObserver loop errors
+    const handleError = (event) => {
+      if (event.message && event.message.includes('ResizeObserver loop completed with undelivered notifications')) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      }
+    };
+
+    window.addEventListener('error', handleError);
+
     if (isInitialized) {
       // Show login UI in this component
       const { ApperUI } = window.ApperSDK
       ApperUI.showLogin("#authentication")
     }
+
+    // Cleanup error listener on unmount
+    return () => {
+      window.removeEventListener('error', handleError);
+    };
   }, [isInitialized])
   
   return (

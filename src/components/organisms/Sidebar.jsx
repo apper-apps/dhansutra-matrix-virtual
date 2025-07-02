@@ -40,9 +40,9 @@ const Sidebar = ({ isOpen, onClose }) => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
                 <ApperIcon name="Coins" className="w-6 h-6 text-white" />
               </div>
-              <div>
+<div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-                  DhanSutra
+                  My Home Finance
                 </h1>
                 <p className="text-xs text-secondary-600">Finance Management</p>
               </div>

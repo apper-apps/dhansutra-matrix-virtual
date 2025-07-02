@@ -25,10 +25,10 @@ const Sidebar = ({ isOpen, onClose }) => {
       )}
       
       {/* Sidebar */}
-      <motion.div
+<motion.div
         initial={false}
         animate={{ 
-          x: isOpen ? 0 : -280,
+          x: typeof window !== 'undefined' && window.innerWidth >= 1024 ? 0 : (isOpen ? 0 : -280),
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="fixed left-0 top-0 z-50 w-72 h-full bg-white shadow-2xl lg:shadow-lg border-r border-surface-100 lg:static lg:translate-x-0"

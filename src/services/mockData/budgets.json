@@ -1,0 +1,58 @@
+[
+  {
+    "Id": 1,
+    "category": "Groceries",
+    "amount": 8000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 2,
+    "category": "Utilities",
+    "amount": 3000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 3,
+    "category": "Entertainment",
+    "amount": 5000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 4,
+    "category": "Healthcare",
+    "amount": 10000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 5,
+    "category": "Transport",
+    "amount": 4000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 6,
+    "category": "Personal Care",
+    "amount": 3000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 7,
+    "category": "Festivals/Cultural Events",
+    "amount": 15000,
+    "period": "quarterly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  },
+  {
+    "Id": 8,
+    "category": "Education",
+    "amount": 12000,
+    "period": "monthly",
+    "startDate": "2024-01-01T00:00:00.000Z"
+  }
+]

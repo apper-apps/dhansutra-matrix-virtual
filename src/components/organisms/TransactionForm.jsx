@@ -7,14 +7,14 @@ import Modal from '@/components/molecules/Modal'
 import transactionService from '@/services/api/transactionService'
 
 const TransactionForm = ({ isOpen, onClose, transaction, onSuccess }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     type: 'expense',
     amount: '',
     category: '',
-    paymentMethod: 'Cash',
+    payment_method: 'Cash',
     date: new Date().toISOString().split('T')[0],
     description: '',
-    isRecurring: false
+    is_recurring: false
   })
   const [loading, setLoading] = useState(false)
 
@@ -36,24 +36,24 @@ const TransactionForm = ({ isOpen, onClose, transaction, onSuccess }) => {
 
   useEffect(() => {
     if (transaction) {
-      setFormData({
+setFormData({
         type: transaction.type,
         amount: transaction.amount.toString(),
         category: transaction.category,
-        paymentMethod: transaction.paymentMethod,
+        payment_method: transaction.payment_method,
         date: new Date(transaction.date).toISOString().split('T')[0],
         description: transaction.description || '',
-        isRecurring: transaction.isRecurring || false
+        is_recurring: transaction.is_recurring || false
       })
     } else {
-      setFormData({
+setFormData({
         type: 'expense',
         amount: '',
         category: '',
-        paymentMethod: 'Cash',
+        payment_method: 'Cash',
         date: new Date().toISOString().split('T')[0],
         description: '',
-        isRecurring: false
+        is_recurring: false
       })
     }
   }, [transaction, isOpen])
@@ -138,9 +138,9 @@ const TransactionForm = ({ isOpen, onClose, transaction, onSuccess }) => {
           </Select>
 
           <Select
-            label="Payment Method"
-            value={formData.paymentMethod}
-            onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+label="Payment Method"
+            value={formData.payment_method}
+            onChange={(e) => setFormData({ ...formData, payment_method: e.target.value })}
             required
           >
             {paymentMethods.map(method => (
@@ -167,11 +167,11 @@ const TransactionForm = ({ isOpen, onClose, transaction, onSuccess }) => {
         />
 
         <div className="flex items-center gap-2">
-          <input
+<input
             type="checkbox"
             id="recurring"
-            checked={formData.isRecurring}
-            onChange={(e) => setFormData({ ...formData, isRecurring: e.target.checked })}
+            checked={formData.is_recurring}
+            onChange={(e) => setFormData({ ...formData, is_recurring: e.target.checked })}
             className="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500"
           />
           <label htmlFor="recurring" className="text-sm font-medium text-secondary-700">

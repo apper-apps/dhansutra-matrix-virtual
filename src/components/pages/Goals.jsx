@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { toast } from 'react-toastify'
-import { format, differenceInDays } from 'date-fns'
-import ProgressCard from '@/components/molecules/ProgressCard'
-import Card from '@/components/atoms/Card'
-import Button from '@/components/atoms/Button'
-import Input from '@/components/atoms/Input'
-import Select from '@/components/atoms/Select'
-import Modal from '@/components/molecules/Modal'
-import Loading from '@/components/ui/Loading'
-import Empty from '@/components/ui/Empty'
-import Error from '@/components/ui/Error'
-import ApperIcon from '@/components/ApperIcon'
-import goalService from '@/services/api/goalService'
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { differenceInDays, format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Select from "@/components/atoms/Select";
+import Card from "@/components/atoms/Card";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import Modal from "@/components/molecules/Modal";
+import ProgressCard from "@/components/molecules/ProgressCard";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import goalService from "@/services/api/goalService";
 
 const Goals = () => {
   const [goals, setGoals] = useState([])
@@ -156,12 +156,11 @@ const Goals = () => {
   if (loading) return <Loading variant="cards" />
   if (error) return <Error message={error} onRetry={loadGoals} />
 
-  // Calculate statistics
-  const totalGoalAmount = goals.reduce((sum, goal) => sum + goal.targetAmount, 0)
-  const totalSavedAmount = goals.reduce((sum, goal) => sum + goal.currentAmount, 0)
-  const completedGoals = goals.filter(goal => goal.currentAmount >= goal.targetAmount).length
+// Calculate statistics
+  const totalGoalAmount = goals.reduce((sum, goal) => sum + (goal.targetAmount || 0), 0)
+  const totalSavedAmount = goals.reduce((sum, goal) => sum + (goal.currentAmount || 0), 0)
+  const completedGoals = goals.filter(goal => (goal.currentAmount || 0) >= (goal.targetAmount || 0)).length
   const overallProgress = totalGoalAmount > 0 ? (totalSavedAmount / totalGoalAmount) * 100 : 0
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -205,11 +204,11 @@ const Goals = () => {
           </div>
         </Card>
 
-        <Card className="p-6">
+<Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-secondary-600">Total Target</p>
-              <p className="text-2xl font-bold text-accent-600">₹{totalGoalAmount.toLocaleString()}</p>
+              <p className="text-2xl font-bold text-accent-600">₹{(totalGoalAmount || 0).toLocaleString()}</p>
             </div>
             <div className="p-3 bg-accent-100 rounded-xl">
               <ApperIcon name="TrendingUp" className="w-6 h-6 text-accent-600" />
@@ -221,7 +220,7 @@ const Goals = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-secondary-600">Total Saved</p>
-              <p className="text-2xl font-bold text-green-600">₹{totalSavedAmount.toLocaleString()}</p>
+              <p className="text-2xl font-bold text-green-600">₹{(totalSavedAmount || 0).toLocaleString()}</p>
             </div>
             <div className="p-3 bg-green-100 rounded-xl">
               <ApperIcon name="PiggyBank" className="w-6 h-6 text-green-600" />
@@ -268,11 +267,10 @@ const Goals = () => {
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {goals.map(goal => {
+{goals.map(goal => {
               const { status, color } = getGoalStatus(goal)
-              const progress = (goal.currentAmount / goal.targetAmount) * 100
+              const progress = ((goal.currentAmount || 0) / (goal.targetAmount || 1)) * 100
               const daysRemaining = differenceInDays(new Date(goal.targetDate), new Date())
-              
               return (
                 <motion.div
                   key={goal.Id}
@@ -341,14 +339,14 @@ const Goals = () => {
                       </div>
                     </div>
 
-                    <div className="space-y-2 mb-4">
+<div className="space-y-2 mb-4">
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-secondary-600">Saved</span>
-                        <span className="font-medium text-secondary-800">₹{goal.currentAmount.toLocaleString()}</span>
+                        <span className="font-medium text-secondary-800">₹{(goal.currentAmount || 0).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-secondary-600">Target</span>
-                        <span className="font-medium text-secondary-800">₹{goal.targetAmount.toLocaleString()}</span>
+                        <span className="font-medium text-secondary-800">₹{(goal.targetAmount || 0).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-secondary-600">Target Date</span>
@@ -361,7 +359,7 @@ const Goals = () => {
                           {daysRemaining >= 0 ? `${daysRemaining} days left` : `${Math.abs(daysRemaining)} days overdue`}
                         </span>
                         <span className="font-semibold text-primary-600">
-                          ₹{(goal.targetAmount - goal.currentAmount).toLocaleString()} to go
+                          ₹{((goal.targetAmount || 0) - (goal.currentAmount || 0)).toLocaleString()} to go
                         </span>
                       </div>
                     </div>
@@ -482,11 +480,11 @@ const Goals = () => {
         size="sm"
       >
         {selectedGoal && (
-          <form onSubmit={handleContribution} className="space-y-6">
+<form onSubmit={handleContribution} className="space-y-6">
             <div className="text-center">
               <h4 className="font-semibold text-secondary-800 mb-2">{selectedGoal.name}</h4>
               <p className="text-sm text-secondary-600">
-                Current: ₹{selectedGoal.currentAmount.toLocaleString()} / ₹{selectedGoal.targetAmount.toLocaleString()}
+                Current: ₹{(selectedGoal.currentAmount || 0).toLocaleString()} / ₹{(selectedGoal.targetAmount || 0).toLocaleString()}
               </p>
             </div>
 

@@ -1,6 +1,5 @@
 // Goal Service using Apper Backend
-const { ApperClient } = window.ApperSDK
-
+const { ApperClient } = window.ApperSDK;
 const goalService = {
   async getAll() {
     try {
@@ -9,7 +8,7 @@ const goalService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       })
       
-      const params = {
+const params = {
         "fields": [
           { "field": { "Name": "Name" } },
           { "field": { "Name": "target_amount" } },
@@ -26,7 +25,15 @@ const goalService = {
         throw new Error(response.message)
       }
       
-      return response.data || []
+      // Map database field names to UI expected names
+      const mappedGoals = response.data.map(goal => ({
+        ...goal,
+        targetAmount: goal.target_amount,
+        currentAmount: goal.current_amount || 0,
+        targetDate: goal.target_date
+      }))
+      
+return mappedGoals
     } catch (error) {
       console.error("Error fetching goals:", error)
       throw error
